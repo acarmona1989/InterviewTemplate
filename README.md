@@ -56,3 +56,6 @@ Body:
 * Github Url
 * Persistence Technology + Screenshot of the model
 * Comments
+
+## Custom solution
+

@@ -1,4 +1,5 @@
-﻿using Football.API.Models;
+﻿using Football.Domain.MainBoundleContext;
+using Football.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -23,7 +24,7 @@ namespace Football.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult GetById(int id)
+        public ActionResult Get(int id)
         {
             var response = footballContext.Referees.Find(id);
             if (response == default)
@@ -35,7 +36,7 @@ namespace Football.API.Controllers
         public ActionResult Post(Referee referee)
         {
             var response = footballContext.Referees.Add(referee).Entity;
-            return this.CreatedAtAction("GetById", response.Id, response);
+            return this.CreatedAtAction(nameof(Get), response.Id, response);
         }
 
         [HttpPut]

@@ -2,10 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>73b1b1b3-237c-4a45-a2ff-a20acc17114f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Football.Application\Football.Application.csproj" />
+    <ProjectReference Include="..\Football.Infrastructure\Football.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

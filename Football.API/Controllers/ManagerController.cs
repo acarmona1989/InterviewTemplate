@@ -1,4 +1,5 @@
-﻿using Football.API.Models;
+﻿using Football.Domain.MainBoundleContext;
+using Football.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -8,6 +9,9 @@ namespace Football.API.Controllers
     [ApiController]
     public class ManagerController : ControllerBase
     {
+        // TODO: Change the DBContext dependency for a service abstraction, which will provide the way of handling entity.
+        // Using this approach the api controller will be a façade publishing the Domain and Application layers.
+        // I recommend to use Mediator pattern, which it enables controllers to communicate to application services, without knowing each services abstraction
         readonly FootballContext footballContext;
         public ManagerController(FootballContext footballContext)
         {
@@ -23,7 +27,7 @@ namespace Football.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult GetById(int id)
+        public ActionResult Get(int id)
         {
             var response = footballContext.Managers.Find(id);
             if (response == default)
@@ -35,7 +39,7 @@ namespace Football.API.Controllers
         public ActionResult Post(Manager manager)
         {
             var response = footballContext.Managers.Add(manager).Entity;
-            return this.CreatedAtAction("GetById", response.Id, response);
+            return this.CreatedAtAction(nameof(Get), response.Id, response);
         }
 
         [HttpPut]

@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Football.Application.Commons;
+using Football.Application.Statistics.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Football.API.Controllers
 {
@@ -7,31 +11,37 @@ namespace Football.API.Controllers
     [ApiController]
     public class StatisticsController : ControllerBase
     {
-        readonly FootballContext footballContext;
-        public StatisticsController(FootballContext footballContext)
+        private IMediator Mediator { get; }
+
+        public StatisticsController(IMediator mediator)
         {
-            this.footballContext = footballContext;
+            Mediator = mediator;
         }
 
         [HttpGet]
         [Route("yellowcards")]
-        public ActionResult GetYellowCards()
+        public Task<Response<IList<CardDto>>> GetYellowCards()
         {
-            throw new NotImplementedException();
+            return Mediator.Send(new GetCardsQuery { 
+                CardType = CardType.Yellow
+            });
         }
 
         [HttpGet]
         [Route("redcards")]
-        public ActionResult GetRedCards()
+        public Task<Response<IList<CardDto>>> GetRedCards()
         {
-            throw new NotImplementedException();
+            return Mediator.Send(new GetCardsQuery
+            {
+                CardType = CardType.Red
+            });
         }
 
         [HttpGet]
         [Route("minutesplayed")]
-        public ActionResult GetMinutesPlayed()
+        public Task<Response<IList<MinutesPlayedDto>>> GetMinutesPlayed()
         {
-            throw new NotImplementedException();
+            return Mediator.Send(new GetMinutesPlayedQuery());
         }
     }
 }

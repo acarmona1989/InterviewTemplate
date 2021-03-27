@@ -1,4 +1,5 @@
-﻿using Football.API.Models;
+﻿using Football.Domain.MainBoundleContext;
+using Football.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -23,19 +24,21 @@ namespace Football.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult GetById(int id)
+        public ActionResult Get(int id)
         {
             var response = footballContext.Players.Find(id);
             if (response == default)
                 this.NotFound();
-            return this.Ok();
+            return this.Ok(response);
         }
 
+        // TODO: Add player number field
         [HttpPost]
         public ActionResult Post(Player player)
         {
             var response = footballContext.Players.Add(player).Entity;
-            return this.CreatedAtAction("GetById", response.Id, response);
+            footballContext.SaveChanges();
+            return this.CreatedAtAction(nameof(Get), response.Id, response);
         }
 
         [HttpPut]
@@ -45,7 +48,7 @@ namespace Football.API.Controllers
             if (footballContext.Players.Find(id) == default)
                 return this.NotFound();
 
-            footballContext.Players.Update(player);        
+            footballContext.Players.Update(player);
             return this.Ok();
         }
     }
