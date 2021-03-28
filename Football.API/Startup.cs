@@ -23,6 +23,7 @@ namespace Football.API
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration);
+            services.AddCors();
             services.AddMvc();
         }
 
@@ -33,6 +34,11 @@ namespace Football.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
 
             app.UseRouting();
 
