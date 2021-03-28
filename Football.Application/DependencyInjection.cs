@@ -24,15 +24,16 @@ namespace Football.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient<IImproperAligmentNotificationService, ImproperAligmentNotificationService>();
 
-            services.AddSingleton<IJobFactory, JobFactory>();
-            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-            services.AddHostedService<QuartzHostedService>();
-            services.AddSingleton<QuartzJobRunner>();
-            services.AddScoped<NotifyImproperAligmentJob>();
+            //services.AddSingleton<IJobFactory, JobFactory>();
+            //services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            //services.AddHostedService<QuartzHostedService>();
+            //services.AddSingleton<QuartzJobRunner>();
+            //services.AddScoped<NotifyImproperAligmentJob>();
+            //services.AddSingleton(new JobSchedule(
+            //    jobType: typeof(NotifyImproperAligmentJob),
+            //    cronExpression: "0/50 * * * * ?")); //every 10 seconds
             services.Decorate(typeof(IRequestHandler<,>), typeof(RetryDecoratorHandler<,>));
-            services.AddSingleton(new JobSchedule(
-                jobType: typeof(NotifyImproperAligmentJob),
-                cronExpression: "0/50 * * * * ?")); //every 10 seconds
+
             return services;
         }
     }
