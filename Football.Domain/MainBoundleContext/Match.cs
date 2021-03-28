@@ -6,6 +6,8 @@ namespace Football.Domain.MainBoundleContext
 {
     public class Match : Entity
     {
+        // TODO: I have change the relationships of entity Match with Player in order to allow many to many relationship. 
+        // I have added a third entity call PlayerMatch using TPH approach in order to allow the separation between away players and house players
         public long HouseManagerId { get; set; }
         public Manager HouseManager { get; set; }
         public long AwayManagerId { get; set; }
