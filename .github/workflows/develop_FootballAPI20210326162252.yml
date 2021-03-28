@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - FootballAPI2021032616
 on:
   push:
     branches:
-      - develop
+      - master
   workflow_dispatch:
 
 jobs:
@@ -26,6 +26,9 @@ jobs:
       
     - name: Build with dotnet
       run: dotnet build --configuration Release
+      
+    - name: Test
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
 
     - name: dotnet publish
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
